@@ -3,6 +3,7 @@ subject: 'cat:cs.*'
 
 # 検索キーワード
 keywords:
+        quasicrystals: 5
         materials informatics: 3
         machine learning: 3
         anomaly detection: 1
