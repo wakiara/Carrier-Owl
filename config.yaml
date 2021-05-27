@@ -10,6 +10,7 @@ keywords:
         anomaly detection: 1
         polymer: 5
         chemical: 3
+        feature learning: 2
 
 # 通知の閾値
 score_threshold: 0
