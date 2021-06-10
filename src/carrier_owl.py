@@ -53,10 +53,12 @@ def search_keyword(
             title_trans = get_translated_text('ja', 'en', title)
             abstract = abstract.replace('\n', '')
             abstract_trans = get_translated_text('ja', 'en', abstract)
-            abstract_trans = textwrap.wrap(abstract_trans, 40)  # 40行で改行
+            abstract_trans = textwrap.wrap(abstract_trans, 40)  # 40字で改行
             abstract_trans = '\n'.join(abstract_trans)
+            abstract = textwrap.wrap(abstract, 80)
+            abstract_all = abstract_trans + '\n' + abstract + '\n'
             result = Result(
-                    url=url, title=title_trans, abstract=abstract_trans,
+                    url=url, title=title_trans, abstract=abstract_all,
                     score=score, words=hit_keywords)
             results.append(result)
     return results
