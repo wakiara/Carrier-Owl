@@ -38,6 +38,16 @@ def calc_score(abst: str, keywords: dict) -> (float, list):
             hit_kwd_list.append(word)
     return sum_score, hit_kwd_list
 
+def make_sentences(raw_text, language='ja', wrap_num=40, raw_wrap_num=80):
+    raw_text = raw_text.replace('\n', '')
+    trans = get_translated_text(language, 'en', raw_text)
+    trans = textwrap.wrap(trans, wrap_num)  # 40字で改行
+    trans = '\n'.join(trans)
+    raw_text = textwrap.wrap(raw_text, raw_wrap_num)
+    raw_text = '\n'.join(raw_text)
+    sentences = trans + '\n' + raw_text + '\n'
+    return sentences
+
 
 def search_keyword(
         articles: list, keywords: dict, score_threshold: float
@@ -50,16 +60,10 @@ def search_keyword(
         abstract = article['summary']
         score, hit_keywords = calc_score(abstract, keywords)
         if (score != 0) and (score >= score_threshold):
-            title_trans = get_translated_text('ja', 'en', title)
-            abstract = abstract.replace('\n', '')
-            abstract_trans = get_translated_text('ja', 'en', abstract)
-            abstract_trans = textwrap.wrap(abstract_trans, 40)  # 40字で改行
-            abstract_trans = '\n'.join(abstract_trans)
-            abstract = textwrap.wrap(abstract, 80)
-            abstract = '\n'.join(abstract)
-            abstract_all = abstract_trans + '\n' + abstract + '\n'
+            title_all = make_sentences(title)
+            abstract_all = make_sentences(abstract)
             result = Result(
-                    url=url, title=title_trans+'\n'+title, abstract=abstract_all,
+                    url=url, title=title_all, abstract=abstract_all,
                     score=score, words=hit_keywords)
             results.append(result)
     return results
