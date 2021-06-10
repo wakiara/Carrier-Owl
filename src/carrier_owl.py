@@ -59,7 +59,7 @@ def search_keyword(
             abstract = '\n'.join(abstract)
             abstract_all = abstract_trans + '\n' + abstract + '\n'
             result = Result(
-                    url=url, title=title_trans, abstract=abstract_all,
+                    url=url, title=title_trans+'\n'+title, abstract=abstract_all,
                     score=score, words=hit_keywords)
             results.append(result)
     return results
