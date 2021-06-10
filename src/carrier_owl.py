@@ -56,6 +56,7 @@ def search_keyword(
             abstract_trans = textwrap.wrap(abstract_trans, 40)  # 40字で改行
             abstract_trans = '\n'.join(abstract_trans)
             abstract = textwrap.wrap(abstract, 80)
+            abstract = '\n'.join(abstract)
             abstract_all = abstract_trans + '\n' + abstract + '\n'
             result = Result(
                     url=url, title=title_trans, abstract=abstract_all,
