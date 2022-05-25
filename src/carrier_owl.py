@@ -53,19 +53,32 @@ def search_keyword(
         articles: list, keywords: dict, score_threshold: float
         ) -> list:
     results = []
+    
+    # ヘッドレスモードでブラウザを起動
+    options = Options()
+    options.add_argument('--headless')
 
+    # ブラウザーを起動
+    driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
+    
     for article in articles:
         url = article['arxiv_url']
         title = article['title']
         abstract = article['summary']
         score, hit_keywords = calc_score(abstract, keywords)
         if (score != 0) and (score >= score_threshold):
-            title_all = make_sentences(title)
-            abstract_all = make_sentences(abstract)
+            title_trans = get_translated_text('ja', 'en', title, driver)
+            abstract = abstract.replace('\n', '')
+            abstract_trans = get_translated_text('ja', 'en', abstract, driver)
+            # abstract_trans = textwrap.wrap(abstract_trans, 40)  # 40行で改行
+            # abstract_trans = '\n'.join(abstract_trans)
             result = Result(
-                    url=url, title=title_all, abstract=abstract_all,
+                    url=url, title=title_trans, abstract=abstract_trans,
                     score=score, words=hit_keywords)
             results.append(result)
+    
+    # ブラウザ停止
+    driver.quit()
     return results
 
 
