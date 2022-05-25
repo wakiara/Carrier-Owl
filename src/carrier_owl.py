@@ -109,7 +109,7 @@ def notify(results: list, slack_id: str, line_token: str) -> None:
         send2app(text, slack_id, line_token)
 
 
-def get_translated_text(from_lang: str, to_lang: str, from_text: str) -> str:
+def get_translated_text(from_lang: str, to_lang: str, from_text: str, driver) -> str:
     '''
     https://qiita.com/fujino-fpu/items/e94d4ff9e7a5784b2987
     '''
@@ -117,19 +117,12 @@ def get_translated_text(from_lang: str, to_lang: str, from_text: str) -> str:
     sleep_time = 1
 
     # urlencode
-    from_text = urllib.parse.quote(from_text, safe='')
-    from_text = from_text.replace('%2F','%5C%2F')
+    from_text = urllib.parse.quote(from_text)
 
     # url作成
     url = 'https://www.deepl.com/translator#' \
         + from_lang + '/' + to_lang + '/' + from_text
 
-    # ヘッドレスモードでブラウザを起動
-    options = Options()
-    options.add_argument('--headless')
-
-    # ブラウザーを起動
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     driver.get(url)
     driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
 
@@ -141,9 +134,6 @@ def get_translated_text(from_lang: str, to_lang: str, from_text: str) -> str:
 
         if to_text:
             break
-
-    # ブラウザ停止
-    driver.quit()
     return to_text
 
 
@@ -152,7 +142,6 @@ def get_text_from_page_source(html: str) -> str:
     target_elem = soup.find(class_="lmt__translations_as_text__text_btn")
     text = target_elem.text
     return text
-
 
 def get_config() -> dict:
     file_abs_path = os.path.abspath(__file__)
