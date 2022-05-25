@@ -1,6 +1,6 @@
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 import os
 import time
 import yaml
@@ -37,16 +37,6 @@ def calc_score(abst: str, keywords: dict) -> (float, list):
             sum_score += score
             hit_kwd_list.append(word)
     return sum_score, hit_kwd_list
-
-def make_sentences(raw_text, language='ja', wrap_num=40, raw_wrap_num=80):
-    raw_text = raw_text.replace('\n', '')
-    trans = get_translated_text(language, 'en', raw_text)
-    trans = textwrap.wrap(trans, wrap_num)  # 40字で改行
-    trans = '\n'.join(trans)
-    raw_text = textwrap.wrap(raw_text, raw_wrap_num)
-    raw_text = '\n'.join(raw_text)
-    sentences = trans + '\n' + raw_text + '\n'
-    return sentences
 
 
 def search_keyword(
@@ -155,6 +145,7 @@ def get_text_from_page_source(html: str) -> str:
     target_elem = soup.find(class_="lmt__translations_as_text__text_btn")
     text = target_elem.text
     return text
+
 
 def get_config() -> dict:
     file_abs_path = os.path.abspath(__file__)
