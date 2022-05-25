@@ -22,7 +22,9 @@ warnings.filterwarnings('ignore')
 class Result:
     url: str
     title: str
+    title_trans: str
     abstract: str
+    abstract_trans: str
     words: list
     score: float = 0.0
 
@@ -60,11 +62,18 @@ def search_keyword(
             title_trans = get_translated_text('ja', 'en', title, driver)
             abstract = abstract.replace('\n', '')
             abstract_trans = get_translated_text('ja', 'en', abstract, driver)
-            # abstract_trans = textwrap.wrap(abstract_trans, 40)  # 40行で改行
-            # abstract_trans = '\n'.join(abstract_trans)
+            abstract =  textwrap.wrap(abstract, 80)  # 80行で改行
+            abstract_trans = textwrap.wrap(abstract_trans, 40)  # 40行で改行
+            abstract_trans = '\n'.join(abstract_trans)
             result = Result(
-                    url=url, title=title_trans, abstract=abstract_trans,
-                    score=score, words=hit_keywords)
+                        url=url,
+                        title=title,
+                        title_trans=title_trans,
+                        abstract=abstract,
+                        abstract_trans=abstract_trans,
+                        score=score,
+                        words=hit_keywords,
+            )
             results.append(result)
     
     # ブラウザ停止
