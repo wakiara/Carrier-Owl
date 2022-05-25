@@ -63,6 +63,7 @@ def search_keyword(
             abstract = abstract.replace('\n', '')
             abstract_trans = get_translated_text('ja', 'en', abstract, driver)
             abstract =  textwrap.wrap(abstract, 80)  # 80行で改行
+            abstract = '\n'.join(abstract)
             abstract_trans = textwrap.wrap(abstract_trans, 40)  # 40行で改行
             abstract_trans = '\n'.join(abstract_trans)
             result = Result(
@@ -106,7 +107,9 @@ def notify(results: list, slack_id: str, line_token: str) -> None:
     for result in sorted(results, reverse=True, key=lambda x: x.score):
         url = result.url
         title = result.title
+        title_trans = result.title_trans
         abstract = result.abstract
+        abstract_trans = result.abstract_trans
         word = result.words
         score = result.score
 
@@ -114,8 +117,10 @@ def notify(results: list, slack_id: str, line_token: str) -> None:
                f'\n hit keywords: `{word}`'\
                f'\n url: {url}'\
                f'\n title:    {title}'\
+               f'\n タイトル:    {title_trans}'\
                f'\n abstract:'\
                f'\n \t {abstract}'\
+               f'\n \t {abstract_trans}'\
                f'\n {star}'
 
         send2app(text, slack_id, line_token)
