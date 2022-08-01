@@ -141,6 +141,7 @@ def get_translated_text(from_lang: str, to_lang: str, from_text: str, driver) ->
         + from_lang + '/' + to_lang + '/' + from_text
 
     driver.get(url)
+    print(driver.page_sourge)
     driver.implicitly_wait(10)  # 見つからないときは、10秒まで待つ
 
     for i in range(30):
