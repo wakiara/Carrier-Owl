@@ -160,9 +160,9 @@ def get_text_from_page_source(html: str) -> str:
     soup = BeautifulSoup(html, features='lxml')
     
 #     search_class = "lmt__inner_textarea_container"
-#     search_class = "lmt__translations_as_text"
+    search_class = "lmt__translations_as_text"
 #     search_class = "lmt__translations_as_text__text_btn"
-    search_class = "lmt__textarea"
+#     search_class = "lmt__textarea"
     
     print(soup.find(class_=search_class))
     target_elem = soup.find(class_=search_class)
