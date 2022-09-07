@@ -158,8 +158,8 @@ def get_translated_text(from_lang: str, to_lang: str, from_text: str, driver) ->
 
 def get_text_from_page_source(html: str) -> str:
     soup = BeautifulSoup(html, features='lxml')
-    search_class = "lmt__inner_textarea_container"
-#     search_class = "lmt__translations_as_text"
+#     search_class = "lmt__inner_textarea_container"
+    search_class = "lmt__translations_as_text"
     
     print(soup.find(class_=search_class))
     target_elem = soup.find(class_=search_classs)
