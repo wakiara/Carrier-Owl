@@ -1,6 +1,7 @@
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+from selenium.common.exceptions import NoSuchElementException
 import os
 import time
 import yaml
@@ -16,7 +17,6 @@ import arxiv
 import requests
 # setting
 warnings.filterwarnings('ignore')
-
 
 @dataclass
 class Result:
