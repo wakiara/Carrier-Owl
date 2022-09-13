@@ -13,6 +13,7 @@ keywords:
         feature learning: 2
         persistent homology: 5
         topological data analysis: 5
+        chemometrics: 5
 
 # 通知の閾値
 score_threshold: 0
